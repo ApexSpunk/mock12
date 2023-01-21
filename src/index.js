@@ -52,7 +52,7 @@ app.post("/getProfile", async (req, res) => {
     try {
         let user = jwt.decode(token, process.env.JWT_SECRET)
         if (user) {
-            res.status(200).send({ name: user.name, email: user.email, token })
+            res.status(200).send({ name: user.name, email: user.email, created: user.created })
         } else {
             res.status(401).send({ message: "Invalid Token" })
         }
