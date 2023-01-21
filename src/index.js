@@ -34,7 +34,7 @@ app.post("/login", async (req, res) => {
     try {
         const user = await User.findOne({ email, password })
         if (user) {
-            let token = jwt.sign({ email, name: user.name }, process.env.JWT_SECRET)
+            let token = jwt.sign({ email, name: user.name, created: user.created }, process.env.JWT_SECRET)
             res.status(200).send({ message: "Login Successful", user: { name: user.name, email: user.email, token } })
         } else {
             res.status(401).send({ message: "Invalid Credentails" })
@@ -70,7 +70,7 @@ app.post("/calculate", async (req, res) => {
         res.send({ message: "Please Provide Full Details" })
     }
     try {
-        
+
         I = I / 100
         let F = P*((((1 + I) ** N) - 1) / I)
         res.status(200).send({ investment: Math.floor(P * N), maturity: Math.floor(F), gained: Math.floor(F - (P * N)) })
