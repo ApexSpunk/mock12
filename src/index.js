@@ -19,7 +19,7 @@ app.post("/register", async (req, res) => {
     try {
         const user = await User.findOne({ email })
         if (user) {
-            res.status(200).send({ message: "User Already Exist" })
+            res.status(400).status(200).send({ message: "User Already Exist" })
         } else {
             let newuser = await User.create({ name, email, password })
             res.status(201).send({ message: "User Signup Successful", user: { name: newuser.name, email: newuser.email } })
@@ -46,6 +46,9 @@ app.post("/login", async (req, res) => {
 
 app.post("/getProfile", async (req, res) => {
     const { token } = req.body;
+    if (!token) {
+        res.status(401).send({ message: "Token Not Found" })
+    }
     try {
         let user = jwt.decode(token, process.env.JWT_SECRET)
         if (user) {
@@ -59,7 +62,10 @@ app.post("/getProfile", async (req, res) => {
 })
 
 app.post("/calculate", async (req, res) => {
-    let { P, I, N } = req.body;
+    let { P, I, N, token } = req.body;
+    if (!token) {
+        res.status(401).send({ message: "Invalid Token" })
+    }
     if (!I || !P || !N) {
         res.send({ message: "Please Provide Full Details" })
     }
