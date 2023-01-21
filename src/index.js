@@ -71,8 +71,7 @@ app.post("/calculate", async (req, res) => {
     }
     try {
         I = I / 100
-        // let F = P*((((1 + I) ** N) - 1) / I)
-        let F = 100000 * ((((1 + 0.071) ** 15) - 1) / 0.071)
+        let F = P*((((1 + I) ** N) - 1) / I)
         res.status(200).send({ investment: Math.floor(P * N), maturity: Math.floor(F), gained: Math.floor(F - (P * N)) })
     } catch (error) {
         console.log(error)
