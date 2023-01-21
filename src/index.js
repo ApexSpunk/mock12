@@ -70,6 +70,7 @@ app.post("/calculate", async (req, res) => {
         res.send({ message: "Please Provide Full Details" })
     }
     try {
+        
         I = I / 100
         let F = P*((((1 + I) ** N) - 1) / I)
         res.status(200).send({ investment: Math.floor(P * N), maturity: Math.floor(F), gained: Math.floor(F - (P * N)) })
